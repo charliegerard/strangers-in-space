@@ -13,6 +13,12 @@ Firebase.auth().signInWithEmailAndPassword('jamesl@thoughtworks.com', 'welcome1'
 
 var app = express();
 
+var numberOfUsers = 0;
+
+app.post('/register', function (req, res) {
+  numberOfUsers++;
+});
+
 app.get('/test', function (req, res) {
   var db = Firebase.database();
   var ref = db.ref("/test");
