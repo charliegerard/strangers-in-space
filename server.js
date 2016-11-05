@@ -21,6 +21,9 @@ var currentHipHopVotes = 0;
 var currentFunkVotes = 0;
 var currentRaveVotes = 0;
 
+const upperRock = 10;
+const upperHipHop = 10;
+
 var rock = new Player('./testRock.mp3');
 var hiphop = new Player('./testHipHop.mp3');
 var funk = new Player('./testFunk.mp3');
@@ -55,6 +58,11 @@ io.on('connection', function(socket){
 
   app.post('/rock', function (req, res) {
     currentRockVotes++;
+
+    if(currentRockVotes >= upperRock) {
+      console.log('CHANGE TO ROCK');
+    }
+
     console.log('rock votes: ' + currentRockVotes);
     io.emit('votes', {type: 'rock', votes: currentRockVotes})
     res.send(200);
@@ -62,6 +70,11 @@ io.on('connection', function(socket){
 
   app.post('/hiphop', function (req, res) {
     currentHipHopVotes++;
+
+    if(currentHipHopVotes >= upperHipHop) {
+      console.log('CHANGE TO HIP HOP');
+    }
+
     console.log('hip hop votes: ' + currentHipHopVotes);
     io.emit('votes', {type: 'hiphop', votes: currentHipHopVotes})
     res.send(200);
