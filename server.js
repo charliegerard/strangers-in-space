@@ -48,6 +48,30 @@ app.post('/rave', function (req, res) {
   res.send(200);
 });
 
+app.post('/change/rock', function (req, res) {
+  resetAllCounters();
+  console.log('theme change! ROCK');
+  res.send(200);
+});
+
+app.post('/change/hiphop', function (req, res) {
+  resetAllCounters();
+  console.log('theme change! HIP HOP');
+  res.send(200);
+});
+
+app.post('/change/funk', function (req, res) {
+  resetAllCounters();
+  console.log('theme change! FUNK');
+  res.send(200);
+});
+
+app.post('/change/rave', function (req, res) {
+  resetAllCounters();
+  console.log('theme change! RAVE');
+  res.send(200);
+});
+
 // some random test endpoint to show how to use firebase
 app.get('/test', function (req, res) {
   var db = Firebase.database();
