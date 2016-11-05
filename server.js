@@ -1,6 +1,6 @@
 var express = require('express');
 var Firebase = require('firebase');
-var sc = require('soundcloud-node');
+var Player = require('player');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
@@ -20,11 +20,25 @@ var currentHipHopVotes = 0;
 var currentFunkVotes = 0;
 var currentRaveVotes = 0;
 
+var rock = new Player('./testRock.mp3');
+var hiphop = new Player('./testHipHop.mp3');
+var funk = new Player('./testFunk.mp3');
+var rave = new Player('./testRave.mp3');
+
 var resetAllCounters = function () {
   currentRockVotes = 0;
   currentHipHopVotes = 0;
   currentFunkVotes = 0;
   currentRaveVotes = 0;
+};
+
+var stopPlayers = function () {
+  rock.stop(function(err, player) {
+    console.log('stopped');
+  });
+  hiphop.stop();
+  funk.stop();
+  rave.stop();
 };
 
 app.post('/register', function (req, res) {
@@ -59,24 +73,48 @@ app.post('/rave', function (req, res) {
 app.post('/change/rock', function (req, res) {
   resetAllCounters();
   console.log('theme change! ROCK');
+  stopPlayers();
+  
+  rock.play(function(err, player) {
+    console.log('play end');
+  });
+
   res.send(200);
 });
 
 app.post('/change/hiphop', function (req, res) {
   resetAllCounters();
   console.log('theme change! HIP HOP');
+  stopPlayers();
+
+ hiphop.play(function(err, player) {
+    console.log('play end');
+  });
+
   res.send(200);
 });
 
 app.post('/change/funk', function (req, res) {
   resetAllCounters();
   console.log('theme change! FUNK');
+  stopPlayers();
+
+  funk.play(function(err, player) {
+    console.log('play end');
+  });
+
   res.send(200);
 });
 
 app.post('/change/rave', function (req, res) {
   resetAllCounters();
   console.log('theme change! RAVE');
+  stopPlayers();
+
+  rave.play(function(err, player) {
+    console.log('play end');
+  });
+
   res.send(200);
 });
 
