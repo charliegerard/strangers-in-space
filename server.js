@@ -3,6 +3,7 @@ var express = require('express');
 var Firebase = require('firebase');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var Player = require('player');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
@@ -20,11 +21,25 @@ var currentHipHopVotes = 0;
 var currentFunkVotes = 0;
 var currentRaveVotes = 0;
 
+var rock = new Player('./testRock.mp3');
+var hiphop = new Player('./testHipHop.mp3');
+var funk = new Player('./testFunk.mp3');
+var rave = new Player('./testRave.mp3');
+
 var resetAllCounters = function () {
   currentRockVotes = 0;
   currentHipHopVotes = 0;
   currentFunkVotes = 0;
   currentRaveVotes = 0;
+};
+
+var stopPlayers = function () {
+  rock.stop(function(err, player) {
+    console.log('stopped');
+  });
+  hiphop.stop();
+  funk.stop();
+  rave.stop();
 };
 
 app.use('/', express.static(__dirname + '/public'));
@@ -70,6 +85,12 @@ io.on('connection', function(socket){
     resetAllCounters();
     console.log('theme change! ROCK');
     io.emit('change', {type: 'rock'})
+    stopPlayers();
+
+    rock.play(function(err, player) {
+      console.log('play end');
+    });
+
     res.send(200);
   });
 
@@ -77,6 +98,12 @@ io.on('connection', function(socket){
     resetAllCounters();
     console.log('theme change! HIP HOP');
     io.emit('change', {type: 'hiphop'})
+    stopPlayers();
+
+   hiphop.play(function(err, player) {
+      console.log('play end');
+    });
+
     res.send(200);
   });
 
@@ -84,6 +111,12 @@ io.on('connection', function(socket){
     resetAllCounters();
     console.log('theme change! FUNK');
     io.emit('change', {type: 'funk'})
+    stopPlayers();
+
+    funk.play(function(err, player) {
+      console.log('play end');
+    });
+
     res.send(200);
   });
 
@@ -91,9 +124,17 @@ io.on('connection', function(socket){
     resetAllCounters();
     console.log('theme change! RAVE');
     io.emit('change', {type: 'rave'})
+    stopPlayers();
+
+    rave.play(function(err, player) {
+      console.log('play end');
+    });
+
     res.send(200);
+
   });
 });
+
 
 // some random test endpoint to show how to use firebase
 app.get('/test', function (req, res) {
