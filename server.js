@@ -19,6 +19,23 @@ app.post('/register', function (req, res) {
   numberOfUsers++;
 });
 
+app.post('/rock', function (req, res) {
+  console.log('rock vote recieved');
+});
+
+app.post('/hiphop', function (req, res) {
+  console.log('hip hop vote recieved');
+});
+
+app.post('/funk', function (req, res) {
+  console.log('funk vote recieved');
+});
+
+app.post('/rave', function (req, res) {
+  console.log('rave vote recieved');
+});
+
+// some random test endpoint to show how to use firebase
 app.get('/test', function (req, res) {
   var db = Firebase.database();
   var ref = db.ref("/test");
