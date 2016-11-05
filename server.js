@@ -19,6 +19,13 @@ var currentHipHopVotes = 0;
 var currentFunkVotes = 0;
 var currentRaveVotes = 0;
 
+var resetAllCounters = function () {
+  currentRockVotes = 0;
+  currentHipHopVotes = 0;
+  currentFunkVotes = 0;
+  currentRaveVotes = 0;
+};
+
 app.post('/register', function (req, res) {
   numberOfUsers++;
   res.send(200);
