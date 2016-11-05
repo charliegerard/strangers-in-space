@@ -1,4 +1,4 @@
-# Strangers in space
+# Strangers in space - TW Hackathon
 
 ### Installation:
 ---
