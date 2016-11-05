@@ -50,6 +50,43 @@ canvas{
   margin: 0 auto;
   border: 1px solid red;
   min-height: 300px;
+  position: relative;
+}
+
+#container .music-block .counter{
+  width: 100%;
+  display: block;
+  position: absolute;
+  background: pink;
+  height: 0px;
+  bottom: 0;
+}
+
+
+
+
+
+svg {
+  z-index: 999;
+  position: relative;
+}
+
+#clipPath {
+  -webkit-animation: waterClimb 9s linear 1;
+  transform: translateY(-110px);
+}
+#clippingPath{
+  -webkit-animation: waterSlide 1.1s infinite linear;
+}
+
+@-webkit-keyframes waterSlide {
+  0%   { transform: translateX(126px); }
+  100% { transform: translateX(-273px); }
+}
+
+@-webkit-keyframes waterClimb {
+  0% { transform: translateY(50px); }
+  100% { transform: translateY(-70px); }
 }
 
 #random{

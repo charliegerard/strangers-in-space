@@ -1,5 +1,8 @@
+var app = require('express')();
 var express = require('express');
 var Firebase = require('firebase');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var Player = require('player');
 
 var config = {
@@ -11,8 +14,6 @@ var config = {
 };
 Firebase.initializeApp(config);
 Firebase.auth().signInWithEmailAndPassword('jamesl@thoughtworks.com', 'welcome1');
-
-var app = express();
 
 var numberOfUsers = 0;
 var currentRockVotes = 0;
@@ -41,82 +42,99 @@ var stopPlayers = function () {
   rave.stop();
 };
 
-app.post('/register', function (req, res) {
-  numberOfUsers++;
-  res.send(200);
-});
+app.use('/', express.static(__dirname + '/public'));
 
-app.post('/rock', function (req, res) {
-  currentRockVotes++;
-  console.log('rock votes: ' + currentRockVotes);
-  res.send(200);
-});
+io.on('connection', function(socket){
+  console.log('a user connected');
 
-app.post('/hiphop', function (req, res) {
-  currentHipHopVotes++;
-  console.log('hip hop votes: ' + currentHipHopVotes);
-  res.send(200);
-});
-
-app.post('/funk', function (req, res) {
-  currentFunkVotes++;
-  console.log('funk votes: ' + currentFunkVotes);
-  res.send(200);
-});
-
-app.post('/rave', function (req, res) {
-  currentRaveVotes++;
-  console.log('rave votes: ' + currentRaveVotes);
-  res.send(200);
-});
-
-app.post('/change/rock', function (req, res) {
-  resetAllCounters();
-  console.log('theme change! ROCK');
-  stopPlayers();
-  
-  rock.play(function(err, player) {
-    console.log('play end');
+  app.post('/register', function (req, res) {
+    numberOfUsers++;
+    io.emit('users', {count : numberOfUsers})
+    res.send(200);
   });
 
-  res.send(200);
-});
-
-app.post('/change/hiphop', function (req, res) {
-  resetAllCounters();
-  console.log('theme change! HIP HOP');
-  stopPlayers();
-
- hiphop.play(function(err, player) {
-    console.log('play end');
+  app.post('/rock', function (req, res) {
+    currentRockVotes++;
+    console.log('rock votes: ' + currentRockVotes);
+    io.emit('votes', {type: 'rock', votes: currentRockVotes})
+    res.send(200);
   });
 
-  res.send(200);
-});
-
-app.post('/change/funk', function (req, res) {
-  resetAllCounters();
-  console.log('theme change! FUNK');
-  stopPlayers();
-
-  funk.play(function(err, player) {
-    console.log('play end');
+  app.post('/hiphop', function (req, res) {
+    currentHipHopVotes++;
+    console.log('hip hop votes: ' + currentHipHopVotes);
+    io.emit('votes', {type: 'hiphop', votes: currentHipHopVotes})
+    res.send(200);
   });
 
-  res.send(200);
-});
-
-app.post('/change/rave', function (req, res) {
-  resetAllCounters();
-  console.log('theme change! RAVE');
-  stopPlayers();
-
-  rave.play(function(err, player) {
-    console.log('play end');
+  app.post('/funk', function (req, res) {
+    currentFunkVotes++;
+    console.log('funk votes: ' + currentFunkVotes);
+    io.emit('votes', {type: 'funk', votes: currentFunkVotes})
+    res.send(200);
   });
 
-  res.send(200);
+  app.post('/rave', function (req, res) {
+    currentRaveVotes++;
+    console.log('rave votes: ' + currentRaveVotes);
+    io.emit('votes', {type: 'rave', votes: currentRaveVotes})
+    res.send(200);
+  });
+
+  app.post('/change/rock', function (req, res) {
+    resetAllCounters();
+    console.log('theme change! ROCK');
+    io.emit('change', {type: 'rock'})
+    stopPlayers();
+
+    rock.play(function(err, player) {
+      console.log('play end');
+    });
+
+    res.send(200);
+  });
+
+  app.post('/change/hiphop', function (req, res) {
+    resetAllCounters();
+    console.log('theme change! HIP HOP');
+    io.emit('change', {type: 'hiphop'})
+    stopPlayers();
+
+   hiphop.play(function(err, player) {
+      console.log('play end');
+    });
+
+    res.send(200);
+  });
+
+  app.post('/change/funk', function (req, res) {
+    resetAllCounters();
+    console.log('theme change! FUNK');
+    io.emit('change', {type: 'funk'})
+    stopPlayers();
+
+    funk.play(function(err, player) {
+      console.log('play end');
+    });
+
+    res.send(200);
+  });
+
+  app.post('/change/rave', function (req, res) {
+    resetAllCounters();
+    console.log('theme change! RAVE');
+    io.emit('change', {type: 'rave'})
+    stopPlayers();
+
+    rave.play(function(err, player) {
+      console.log('play end');
+    });
+
+    res.send(200);
+
+  });
 });
+
 
 // some random test endpoint to show how to use firebase
 app.get('/test', function (req, res) {
@@ -131,7 +149,4 @@ app.get('/test', function (req, res) {
   });
 });
 
-
-app.use(express.static('public'))
-
-app.listen(process.env.PORT || 3000);
+http.listen(process.env.PORT || 3000);
