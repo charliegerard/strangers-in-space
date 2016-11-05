@@ -14,25 +14,33 @@ Firebase.auth().signInWithEmailAndPassword('jamesl@thoughtworks.com', 'welcome1'
 var app = express();
 
 var numberOfUsers = 0;
+var currentRockVotes = 0;
+var currentHipHopVotes = 0;
+var currentFunkVotes = 0;
+var currentRaveVotes = 0;
 
 app.post('/register', function (req, res) {
   numberOfUsers++;
 });
 
 app.post('/rock', function (req, res) {
-  console.log('rock vote recieved');
+  currentRockVotes++;
+  console.log('rock votes: ' + currentRockVotes);
 });
 
 app.post('/hiphop', function (req, res) {
-  console.log('hip hop vote recieved');
+  currentHipHopVotes++;
+  console.log('hip hop votes: ' + currentHipHopVotes);
 });
 
 app.post('/funk', function (req, res) {
-  console.log('funk vote recieved');
+  currentFunkVotes++;
+  console.log('funk votes: ' + currentFunkVotes);
 });
 
 app.post('/rave', function (req, res) {
-  console.log('rave vote recieved');
+  currentRaveVotes++;
+  console.log('rave votes: ' + currentRaveVotes);
 });
 
 // some random test endpoint to show how to use firebase
