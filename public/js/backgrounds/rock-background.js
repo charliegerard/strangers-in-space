@@ -1,160 +1,165 @@
-// if you just don't want to read the code but still are interested in how it works, here's a guide for you: http://codepen.io/towc/blog/a-guide-to-wavy-waved-radial-waves/
+var rockBackground = function() {
 
-var w = c.width = window.innerWidth,
-		h = c.height = window.innerHeight,
-		ctx = c.getContext('2d'),
 
-		opts = {
+  // if you just don't want to read the code but still are interested in how it works, here's a guide for you: http://codepen.io/towc/blog/a-guide-to-wavy-waved-radial-waves/
 
-			rays: 30,
-			maxRadius: Math.sqrt( w*w/4 + h*h/4 ),
-			circleRadiusIncrementAcceleration: 2,
-			radiantSpan: .4,
-			rayAngularVelSpan: .005,
-			rayAngularVelLineWidthMultiplier: 60,
-			rayAngularAccWaveInputBaseIncrementer: .03,
-			rayAngularAccWaveInputAddedIncrementer: .02,
-			rayAngularAccWaveMultiplier: .0003,
-			baseWaveInputIncrementer: .01,
-			addedWaveInputIncrementer: .01,
-			circleNumWaveIncrementerMultiplier: .1,
+  var w = c.width = window.innerWidth,
+  		h = c.height = window.innerHeight,
+  		ctx = c.getContext('2d'),
 
-			cx: w / 2,
-			cy: h / 2,
-			tickHueMultiplier: 1,
-			shadowBlur: 0,
-			repaintAlpha: .2,
-			apply: init
-		},
+  		opts = {
 
-		rays = [],
-		tick = 0,
-		tickHueMultiplied,
-		gui = new dat.GUI;
+  			rays: 30,
+  			maxRadius: Math.sqrt( w*w/4 + h*h/4 ),
+  			circleRadiusIncrementAcceleration: 2,
+  			radiantSpan: .4,
+  			rayAngularVelSpan: .005,
+  			rayAngularVelLineWidthMultiplier: 60,
+  			rayAngularAccWaveInputBaseIncrementer: .03,
+  			rayAngularAccWaveInputAddedIncrementer: .02,
+  			rayAngularAccWaveMultiplier: .0003,
+  			baseWaveInputIncrementer: .01,
+  			addedWaveInputIncrementer: .01,
+  			circleNumWaveIncrementerMultiplier: .1,
 
-function init(){
+  			cx: w / 2,
+  			cy: h / 2,
+  			tickHueMultiplier: 1,
+  			shadowBlur: 0,
+  			repaintAlpha: .2,
+  			apply: init
+  		},
 
-	rays.length = 0;
-	for( var i = 0; i < opts.rays; ++i )
-		rays.push( new Ray );
+  		rays = [],
+  		tick = 0,
+  		tickHueMultiplied,
+  		gui = new dat.GUI;
 
-	if( tick === 0 ){
+  function init(){
 
-		for( opt in opts ){
+  	rays.length = 0;
+  	for( var i = 0; i < opts.rays; ++i )
+  		rays.push( new Ray );
 
-			if( isNaN( opts[ opt ] ) )
-				gui.add( opts, opt );
-			else
-				gui.add( opts, opt, 0, opts[ opt ] * 3 )
-		}
-		gui.close();
+  	if( tick === 0 ){
 
-		loop();
-	}
-}
+  		for( opt in opts ){
 
-function loop(){
+  			if( isNaN( opts[ opt ] ) )
+  				gui.add( opts, opt );
+  			else
+  				gui.add( opts, opt, 0, opts[ opt ] * 3 )
+  		}
+  		gui.close();
 
-	window.requestAnimationFrame( loop );
+  		loop();
+  	}
+  }
 
-  ++tick;
+  function loop(){
 
-	ctx.globalCompositeOperation = 'source-over';
-	ctx.shadowBlur = 0;
-	ctx.fillStyle = 'rgba(0,0,0,alp)'.replace( 'alp', opts.repaintAlpha );
-	ctx.fillRect( 0, 0, w, h );
-	ctx.shadowBlur = opts.shadowBlur;
-	ctx.globalCompositeOperation = 'lighter';
+  	window.requestAnimationFrame( loop );
 
-	tickHueMultiplied = opts.tickHueMultiplier * tick;
+    ++tick;
 
-	rays.map( function( ray ){ ray.step(); } );
-}
+  	ctx.globalCompositeOperation = 'source-over';
+  	ctx.shadowBlur = 0;
+  	ctx.fillStyle = 'rgba(0,0,0,alp)'.replace( 'alp', opts.repaintAlpha );
+  	ctx.fillRect( 0, 0, w, h );
+  	ctx.shadowBlur = opts.shadowBlur;
+  	ctx.globalCompositeOperation = 'lighter';
 
-function Ray(){
+  	tickHueMultiplied = opts.tickHueMultiplier * tick;
 
-	this.circles = [ new Circle( 0 ) ];
-	this.rot = Math.random() * Math.PI * 2;
-	this.angularVel = Math.random() * opts.rayAngularVelSpan * ( Math.random() < .5 ? 1 : -1 );
-	this.angularAccWaveInput = Math.random() * Math.PI * 2;
-	this.angularAccWaveInputIncrementer = opts.rayAngularAccWaveInputBaseIncrementer + opts.rayAngularAccWaveInputAddedIncrementer * Math.random();
+  	rays.map( function( ray ){ ray.step(); } );
+  }
 
-	var security = 100,
-			count = 0;
+  function Ray(){
 
-	while( --security > 0 && this.circles[ count ].radius < opts.maxRadius )
-		this.circles.push( new Circle( ++count ) );
-}
-Ray.prototype.step = function(){
+  	this.circles = [ new Circle( 0 ) ];
+  	this.rot = Math.random() * Math.PI * 2;
+  	this.angularVel = Math.random() * opts.rayAngularVelSpan * ( Math.random() < .5 ? 1 : -1 );
+  	this.angularAccWaveInput = Math.random() * Math.PI * 2;
+  	this.angularAccWaveInputIncrementer = opts.rayAngularAccWaveInputBaseIncrementer + opts.rayAngularAccWaveInputAddedIncrementer * Math.random();
 
-	// this is just messy, but if you take your time to read it properly you'll understand it pretty easily
-	this.rot +=
-		this.angularVel += Math.sin(
-			this.angularAccWaveInput +=
-				this.angularAccWaveInputIncrementer ) * opts.rayAngularAccWaveMultiplier;
+  	var security = 100,
+  			count = 0;
 
-	var rot = this.rot,
-			x = opts.cx,
-			y = opts.cy;
+  	while( --security > 0 && this.circles[ count ].radius < opts.maxRadius )
+  		this.circles.push( new Circle( ++count ) );
+  }
+  Ray.prototype.step = function(){
 
-	ctx.lineWidth = Math.min( .00001 / Math.abs( this.angularVel ), 10 / opts.rayAngularVelLineWidthMultiplier ) * opts.rayAngularVelLineWidthMultiplier;
+  	// this is just messy, but if you take your time to read it properly you'll understand it pretty easily
+  	this.rot +=
+  		this.angularVel += Math.sin(
+  			this.angularAccWaveInput +=
+  				this.angularAccWaveInputIncrementer ) * opts.rayAngularAccWaveMultiplier;
 
-	ctx.beginPath();
-	ctx.moveTo( x, y );
+  	var rot = this.rot,
+  			x = opts.cx,
+  			y = opts.cy;
 
-	for( var i = 0; i < this.circles.length; ++i ){
+  	ctx.lineWidth = Math.min( .00001 / Math.abs( this.angularVel ), 10 / opts.rayAngularVelLineWidthMultiplier ) * opts.rayAngularVelLineWidthMultiplier;
 
-		var circle = this.circles[ i ];
+  	ctx.beginPath();
+  	ctx.moveTo( x, y );
 
-		circle.step();
+  	for( var i = 0; i < this.circles.length; ++i ){
 
-		rot += circle.radiant;
+  		var circle = this.circles[ i ];
 
-		var x2 = opts.cx + Math.sin( rot ) * circle.radius,
-				y2 = opts.cy + Math.cos( rot ) * circle.radius,
+  		circle.step();
 
-				mx = ( x + x2 ) / 2,
-				my = ( y + y2 ) / 2;
+  		rot += circle.radiant;
 
-		ctx.quadraticCurveTo( x, y, mx, my );
+  		var x2 = opts.cx + Math.sin( rot ) * circle.radius,
+  				y2 = opts.cy + Math.cos( rot ) * circle.radius,
 
-		x = x2;
-		y = y2;
-	}
+  				mx = ( x + x2 ) / 2,
+  				my = ( y + y2 ) / 2;
 
-	ctx.strokeStyle = ctx.shadowColor = 'hsl(hue,80%,50%)'.replace( 'hue', ( ( ( rot + this.rot ) / 2 ) % ( Math.PI * 2 ) ) / Math.PI * 30 + tickHueMultiplied );
+  		ctx.quadraticCurveTo( x, y, mx, my );
 
-	ctx.stroke();
-}
+  		x = x2;
+  		y = y2;
+  	}
 
-function Circle( n ){
+  	ctx.strokeStyle = ctx.shadowColor = 'hsl(hue,80%,50%)'.replace( 'hue', ( ( ( rot + this.rot ) / 2 ) % ( Math.PI * 2 ) ) / Math.PI * 30 + tickHueMultiplied );
 
-	this.radius = opts.circleRadiusIncrementAcceleration * Math.pow( n, 2 );
-	this.waveInputIncrementer = ( opts.baseWaveInputIncrementer + opts.addedWaveInputIncrementer * Math.random() ) * ( Math.random() < .5 ? 1 : -1 ) * opts.circleNumWaveIncrementerMultiplier * n;
-	this.waveInput = Math.random() * Math.PI * 2;
-	this.radiant = Math.random() * opts.radiantSpan * ( Math.random() < .5 ? 1 : -1 );
-}
-Circle.prototype.step = function(){
+  	ctx.stroke();
+  }
 
-	this.waveInput += this.waveInputIncrementer;
-	this.radiant = Math.sin( this.waveInput ) * opts.radiantSpan;
-}
-init();
+  function Circle( n ){
 
-window.addEventListener( 'resize', function(){
+  	this.radius = opts.circleRadiusIncrementAcceleration * Math.pow( n, 2 );
+  	this.waveInputIncrementer = ( opts.baseWaveInputIncrementer + opts.addedWaveInputIncrementer * Math.random() ) * ( Math.random() < .5 ? 1 : -1 ) * opts.circleNumWaveIncrementerMultiplier * n;
+  	this.waveInput = Math.random() * Math.PI * 2;
+  	this.radiant = Math.random() * opts.radiantSpan * ( Math.random() < .5 ? 1 : -1 );
+  }
+  Circle.prototype.step = function(){
 
-	w = c.width = window.innerWidth;
-	h = c.height = window.innerHeight;
+  	this.waveInput += this.waveInputIncrementer;
+  	this.radiant = Math.sin( this.waveInput ) * opts.radiantSpan;
+  }
+  init();
 
-	opts.maxRadius = Math.sqrt( w*w/4 + h*h/4 );
-	opts.cx = w / 2;
-	opts.cy = h / 2;
+  window.addEventListener( 'resize', function(){
 
-	init();
-});
-c.addEventListener( 'click', function(e){
+  	w = c.width = window.innerWidth;
+  	h = c.height = window.innerHeight;
 
-	opts.cx = e.clientX;
-	opts.cy = e.clientY;
+  	opts.maxRadius = Math.sqrt( w*w/4 + h*h/4 );
+  	opts.cx = w / 2;
+  	opts.cy = h / 2;
 
-})
+  	init();
+  });
+  c.addEventListener( 'click', function(e){
+
+  	opts.cx = e.clientX;
+  	opts.cy = e.clientY;
+
+  })
+
+};
