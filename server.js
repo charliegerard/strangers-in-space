@@ -58,6 +58,16 @@ var stopPlayers = function () {
  votes.rave.playlist.stop();
 };
 
+var changeTheme = function (theme) {
+  resetAllCounters();
+  console.log('theme change! ' + theme.name);
+  stopPlayers();
+
+  theme.playlist.play(function(err, player) {
+   console.log('play end');
+  });
+};
+
 app.use('/', express.static(__dirname + '/public'));
 
 io.on('connection', function(socket){
@@ -73,27 +83,13 @@ io.on('connection', function(socket){
     const theme = votes[req.params.theme];
     theme.current++;
 
-    if(theme.current >= theme.upper) {
-      console.log('CHANGE TO ' + theme.name);
-    }
-
     console.log(theme.name + ' votes: ' + theme.current);
     io.emit('votes', {type: theme.name, votes: theme.current})
 
-    res.send(200);
-  });
-
-  app.post('/change/:theme', function (req, res) {
-    const theme = votes[req.params.theme];
-
-    resetAllCounters();
-    console.log('theme change! ' + theme.name);
-    io.emit('change', {type: theme.name})
-    stopPlayers();
-
-    theme.playlist.play(function(err, player) {
-     console.log('play end');
-    });
+    if(theme.current >= theme.upper) {
+      console.log('CHANGE TO ' + theme.name);
+      changeTheme(theme);
+    }
 
     res.send(200);
   });
