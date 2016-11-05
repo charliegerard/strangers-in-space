@@ -1,0 +1,46 @@
+body{
+  font-family: 'Open Sans';
+}
+
+#code-box{
+  display: block;
+  padding: 0.5em 1em;
+  margin: 0 auto;
+  width: 200px;
+}
+
+#code-box h2{
+  font-weight: 200;
+}
+
+#code{
+    border: 1px solid black;
+    text-align: center;
+}
+
+#code h2{
+  font-weight: 800;
+}
+
+#container{
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+}
+
+#container .music-style{
+  width: 24%;
+  display: inline-block;
+}
+
+#container .music-block{
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid darkgrey;
+  min-height: 300px;
+}
+
+#random{
+  
+}
