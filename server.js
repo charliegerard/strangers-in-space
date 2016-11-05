@@ -1,5 +1,6 @@
 var express = require('express');
 var Firebase = require('firebase');
+var sc = require('soundcloud-node');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
