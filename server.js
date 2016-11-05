@@ -15,8 +15,6 @@ var config = {
 Firebase.initializeApp(config);
 Firebase.auth().signInWithEmailAndPassword('jamesl@thoughtworks.com', 'welcome1');
 
-var numberOfUsers = 0;
-
 var resetAllCounters = function () {
   votes.rock.current = 0;
   votes.hiphop.current = 0;
@@ -68,14 +66,26 @@ var changeTheme = function (theme) {
   });
 };
 
+var users = {};
+
 app.use('/', express.static(__dirname + '/public'));
 
 io.on('connection', function(socket){
   console.log('a user connected');
 
-  app.post('/register', function (req, res) {
-    numberOfUsers++;
-    io.emit('users', {count : numberOfUsers})
+  app.post('/register/:deviceId', function (req, res) {
+    const deviceId = req.params.deviceId;
+
+    if(deviceId in users) {
+      console.log('USER ALREADY REGISTERED');
+      res.send(200);
+      return;
+    }
+
+    users[deviceId] = req.query.token;
+    console.log(users);
+    io.emit('users', {count : users.size});
+
     res.send(200);
   });
 
@@ -84,7 +94,12 @@ io.on('connection', function(socket){
     theme.current++;
 
     console.log(theme.name + ' votes: ' + theme.current);
-    io.emit('votes', {type: theme.name, votes: theme.current})
+    io.emit('votes', {type: theme.name, votes: theme.current});
+
+    if(theme.current === 7) {
+      console.log('ALMOST TIME TO CHANGE TO ' + theme.name);
+      notifyUsers();
+    }
 
     if(theme.current >= theme.upper) {
       console.log('CHANGE TO ' + theme.name);
