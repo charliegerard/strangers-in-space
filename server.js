@@ -21,26 +21,31 @@ var currentRaveVotes = 0;
 
 app.post('/register', function (req, res) {
   numberOfUsers++;
+  res.send(200);
 });
 
 app.post('/rock', function (req, res) {
   currentRockVotes++;
   console.log('rock votes: ' + currentRockVotes);
+  res.send(200);
 });
 
 app.post('/hiphop', function (req, res) {
   currentHipHopVotes++;
   console.log('hip hop votes: ' + currentHipHopVotes);
+  res.send(200);
 });
 
 app.post('/funk', function (req, res) {
   currentFunkVotes++;
   console.log('funk votes: ' + currentFunkVotes);
+  res.send(200);
 });
 
 app.post('/rave', function (req, res) {
   currentRaveVotes++;
   console.log('rave votes: ' + currentRaveVotes);
+  res.send(200);
 });
 
 // some random test endpoint to show how to use firebase
