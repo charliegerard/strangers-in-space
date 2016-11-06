@@ -5,7 +5,7 @@ var raveBackground = function() {
   h = c.height = window.innerHeight,
   ctx = c.getContext('2d'),
 
-  //parameters
+  //parameterse
   total = (w/8)|0,
   accelleration = .05,
   lineAlpha = .02,
