@@ -12,7 +12,7 @@ $(document).ready(function(){
   var defaultPlaylist = hipHopPlaylist;
   // hiphopBackground();
   // raveBackground();
-  funkBackground();
+  rockBackground();
 
   waveChart('w-hiphop', .5);
   waveChart('w-rock', .3);
