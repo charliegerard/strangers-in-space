@@ -105,12 +105,11 @@ $(document).ready(function(){
             type: 'track'
         },
         success: function (response) {
-          console.log('playing song');
-            if (response.tracks.items.length) {
-                var track = response.tracks.items[0];
-                audio.src = track.preview_url;
-                audio.play();
-            }
+          if (response.tracks.items.length) {
+              var track = response.tracks.items[0];
+              audio.src = track.preview_url;
+              audio.play();
+          }
         }
     });
   }
