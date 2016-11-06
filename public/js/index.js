@@ -10,7 +10,7 @@ $(document).ready(function(){
 
   //Setup default playlist, if needed;
   var defaultPlaylist = hipHopPlaylist;
-  funkBackground();
+  hiphopBackground();
 
   waveChart('w-hiphop', .5);
   waveChart('w-rock', .3);

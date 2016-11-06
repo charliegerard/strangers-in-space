@@ -191,9 +191,8 @@ var hiphopBackground = function() {
   /* Define Canvas and Initialize
   /*=============================================================================*/
     if(isCanvasSupported){
-      var c = document.createElement('canvas');
-      c.width = 400;
-      c.height = 400;
+
+      var c = document.getElementById('c');
       var cw = c.width;
       var ch = c.height;
       document.body.appendChild(c);
