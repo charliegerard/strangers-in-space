@@ -4,6 +4,7 @@ var Firebase = require('firebase');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Player = require('player');
+var http = require('http');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
@@ -14,13 +15,9 @@ var config = {
 };
 Firebase.initializeApp(config);
 Firebase.auth().signInWithEmailAndPassword('jamesl@thoughtworks.com', 'welcome1');
+const messaging = Firebase.messaging();
 
-var resetAllCounters = function () {
-  votes.rock.current = 0;
-  votes.hiphop.current = 0;
-  votes.funk.current = 0;
-  votes.rave.current = 0;
-};
+var users = [];
 
 var votes = {
   rock: {
@@ -49,6 +46,14 @@ var votes = {
   }
 }
 
+var resetAllCounters = function () {
+  votes.rock.current = 0;
+  votes.hiphop.current = 0;
+  votes.funk.current = 0;
+  votes.rave.current = 0;
+};
+
+
 var stopPlayers = function () {
  votes.rock.playlist.stop();
  votes.hiphop.playlist.stop();
@@ -66,23 +71,51 @@ var changeTheme = function (theme) {
   });
 };
 
-var users = {};
+var notifyUsers = function (theme) {
+  var options = {
+    host: 'fcm.googleapis.com',
+    path: '/fcm/send',
+    headers: {'Content-Type': 'application/json', 'Authorization': config.apiKey}
+  };
+
+  var callback = function(response) {
+    var str = ''
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    response.on('end', function () {
+      console.log(str);
+    });
+  }
+
+  var message = "{
+    'to': '/topics/foo-bar',
+    'data': {
+      'message': '" + theme.name + "',
+     }
+  }"
+
+  var req = http.request(options, callback);
+  req.write(message);
+  req.end();
+}
 
 app.use('/', express.static(__dirname + '/public'));
 
 io.on('connection', function(socket){
   console.log('a user connected');
 
-  app.post('/register/:deviceId', function (req, res) {
-    const deviceId = req.params.deviceId;
+  app.post('/register/:token', function (req, res) {
+    const token = req.params.token;
 
-    if(deviceId in users) {
+    if(users.indexOf(token) > -1) {
       console.log('USER ALREADY REGISTERED');
       res.send(200);
       return;
     }
 
-    users[deviceId] = req.query.token;
+    users.push(req.params.token);
     console.log(users);
     io.emit('users', {count : users.size});
 
@@ -98,7 +131,7 @@ io.on('connection', function(socket){
 
     if(theme.current === 7) {
       console.log('ALMOST TIME TO CHANGE TO ' + theme.name);
-      notifyUsers();
+      notifyUsers(theme);
     }
 
     if(theme.current >= theme.upper) {
@@ -110,17 +143,6 @@ io.on('connection', function(socket){
   });
 });
 
-// some random test endpoint to show how to use firebase
-app.get('/test', function (req, res) {
-  var db = Firebase.database();
-  var ref = db.ref("/test");
-  var blah = 2;
-  ref.once("value", function(snapshot) {
-    blah = snapshot.val();
-    res.send(JSON.stringify({ a: blah }));
-  }, function(error) {
-    console.log(error);
-  });
-});
-
 http.listen(process.env.PORT || 3000);
+
+// todo - start the initial playlist playing here...
