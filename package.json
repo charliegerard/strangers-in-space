@@ -11,7 +11,6 @@
   "dependencies": {
     "express": "^4.14.0",
     "firebase": "^3.5.3",
-    "player": "^0.6.1",
     "socket.io": "^1.5.0",
     "soundcloud-node": "0.0.10"
   }
