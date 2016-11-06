@@ -3,8 +3,8 @@ var express = require('express');
 var Firebase = require('firebase');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var Player = require('player');
 var Http = require('http');
+//var Player = require('player');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
@@ -24,25 +24,25 @@ var votes = {
     name: 'rock',
     current: 0,
     upper: 10,
-    playlist: new Player('./testRock.mp3')
+    //playlist: new Player('./testRock.mp3')
   },
   hiphop: {
     name: 'hiphop',
     current: 0,
     upper: 10,
-    playlist: new Player('./testHipHop.mp3')
+    //playlist: new Player('./testHipHop.mp3')
   },
   funk: {
     name: 'funk',
     current: 0,
     upper: 10,
-    playlist: new Player('./testFunk.mp3')
+    //playlist: new Player('./testFunk.mp3')
   },
   rave: {
     name: 'rave',
     current: 0,
     upper: 10,
-    playlist: new Player('./testRave.mp3')
+    //playlist: new Player('./testRave.mp3')
   }
 }
 
@@ -55,10 +55,10 @@ var resetAllCounters = function () {
 
 
 var stopPlayers = function () {
- votes.rock.playlist.stop();
- votes.hiphop.playlist.stop();
- votes.funk.playlist.stop();
- votes.rave.playlist.stop();
+ // votes.rock.playlist.stop();
+ // votes.hiphop.playlist.stop();
+ // votes.funk.playlist.stop();
+ // votes.rave.playlist.stop();
 };
 
 var changeTheme = function (theme) {
@@ -66,9 +66,9 @@ var changeTheme = function (theme) {
   console.log('theme change! ' + theme.name);
   stopPlayers();
 
-  theme.playlist.play(function(err, player) {
-   console.log('play end');
-  });
+  // theme.playlist.play(function(err, player) {
+  //  console.log('play end');
+  // });
 };
 
 var notifyUsers = function (theme) {
