@@ -1,4 +1,4 @@
-window.onload = function(){
+$(document).ready(function(){
   var socket = io();
   var numberOfUsers = 0;
   var audio = new Audio();
@@ -10,6 +10,12 @@ window.onload = function(){
 
   //Setup default playlist, if needed;
   var defaultPlaylist = hipHopPlaylist;
+  funkBackground();
+
+  waveChart('w-hiphop', .5);
+  waveChart('w-rock', .3);
+  waveChart('w-funk', .8);
+  waveChart('w-dance', .1);
 
   socket.on('users', function(data){
     numberOfUsers = data.count;
@@ -62,7 +68,7 @@ window.onload = function(){
       case 'rave':
         playTunes('andy c');
         break;
-      default: 
+      default:
         break;
     }
   });
@@ -97,4 +103,4 @@ window.onload = function(){
   }
 
   playTunes('grown up');
-}
+})
