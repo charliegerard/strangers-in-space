@@ -14,11 +14,6 @@ $(document).ready(function(){
   // raveBackground();
   funkBackground();
 
-  waveChart('w-hiphop', .5);
-  waveChart('w-rock', .3);
-  waveChart('w-funk', .8);
-  waveChart('w-dance', .1);
-
   socket.on('users', function(data){
     numberOfUsers = data.count;
   })
@@ -31,22 +26,22 @@ $(document).ready(function(){
     switch(data.type){
       case 'rock':
         rockPlaylist.vote(data.votes);
-        displayVotes(rockPlaylist);
+        waveChart('w-rock', data.votes/10);
         break;
       case 'hiphop':
         hipHopPlaylist.vote(data.votes);
-        displayVotes(hipHopPlaylist);
+        waveChart('w-hiphop', data.votes/10);
         break;
       case 'funk':
         funkPlaylist.vote(data.votes);
-        displayVotes(funkPlaylist);
+        waveChart('w-funk', data.votes/10);
         break;
       case 'dance':
         dancePlaylist.vote(data.votes);
-        displayVotes(dancePlaylist);
+        waveChart('w-dance', data.votes/10);
         break;
       default:
-        console.log('meh')
+        break;
     }
   });
 
@@ -88,17 +83,6 @@ $(document).ready(function(){
         break;
     }
   });
-
-  function displayVotes(playlist){
-    var loaderDiv = document.getElementsByClassName('counter')[playlist.index];
-    var loaderContainer = document.getElementsByClassName('music-block')[playlist.index];
-    var containerHeight = loaderContainer.offsetHeight;
-    var height = loaderDiv.offsetHeight;
-    var newHeight = height * playlist.votes;
-    // if(parseInt(newHeight) <= parseInt(containerHeight)){
-    //   loaderDiv.style.height = newHeight + 'px'
-    // }
-  }
 
   function playTunes(theme) {
     $.ajax({
