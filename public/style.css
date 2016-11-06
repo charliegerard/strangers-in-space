@@ -16,6 +16,7 @@ body{
 
 #code-box{
   display: block;
+  position: relative;;
   padding: 0.5em 1em;
   margin: 0 auto;
   width: 200px;
@@ -26,7 +27,7 @@ body{
 }
 
 #code{
-    border: 1px solid green;
+    /*border: 1px solid green;*/
     text-align: center;
 }
 
@@ -38,12 +39,19 @@ body{
   display: block;
   width: 90%;
   margin: 0 auto;
+  /*height: 100vh;*/
 }
 
 #container .music-style{
   width: 24%;
   display: inline-block;
   text-align: center;
+  /*height: 50vh;*/
+  position: relative;
+}
+
+#container .music-style h2{
+  font-size: 48px;
 }
 
 #container .music-block{
@@ -51,7 +59,7 @@ body{
   display: block;
   margin: 0 auto;
   border: 1px solid red;
-  min-height: 300px;
+  min-height: 50vh;
   position: relative;
 }
 
@@ -64,6 +72,11 @@ body{
   bottom: 0;
 }
 
+.dance-gif{
+  /*border: 1px solid white;*/
+  left: -140px;
+  position: absolute;
+}
 
 
 
@@ -134,8 +147,8 @@ top:50%;*/
 .stage_highlight {
   position: absolute;
   top: 0;
-  left: 42vh;
-  width: 50vh;
+  left: 138px;
+  width: 30vh;
   height: 100%;
   overflow: hidden;
   background-image: radial-gradient(ellipse closest-side at 50% 82%, rgb(225,225,225), rgba(225,225,225,0) 100%);
@@ -150,7 +163,7 @@ top:50%;*/
   height: 400vh;
   background-image: radial-gradient(ellipse, rgba(225,225,225,0.5), rgba(225,225,225,0.5) 25%, rgba(82,116,168,0) 50%);
   top:-220vh;
-  /*left:55vh;*/
+  left:163px;
   transform: perspective(23vh) rotateX(30deg);
 }
 .spotlight {
@@ -177,13 +190,13 @@ top:50%;*/
     transform: rotate(0deg) scaleY(1) translateY(0);
   }
   25% {
-    transform: rotate(-5deg) scaleY(1.1) translateY(-3vh);
+    transform: rotate(-1deg) scaleY(1.1) translateY(-1vh);
   }
   50% {
     transform: rotate(0deg) scaleY(1) translateY(0);
   }
   75% {
-    transform: rotate(5deg) scaleY(1.1) translateY(-3vh);
+    transform: rotate(1deg) scaleY(1.1) translateY(-1vh);
   }
 }
 
@@ -192,12 +205,114 @@ top:50%;*/
     transform: translateX(0);
   }
   25% {
-    transform: translateX(8vh);
+    transform: translateX(1vh);
   }
   50% {
     transform: translateX(0);
   }
   75% {
-    transform: translateX(-8vh);
+    transform: translateX(-1vh);
+  }
+}
+
+
+/************************************/
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  background: black;
+}
+
+#loader {
+  display: block;
+  position: relative;
+  left: 50%;
+  top: 115px;
+  width: 140px;
+  height: 140px;
+  margin: -70px 0 0 -70px;
+  border: 3px solid #3498db;
+  border-top-color: #3498db;
+  border-radius: 0%;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+#loader:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  border: 3px solid transparent;
+  border-top-color: #e74c3c;
+  border-radius: 50%;
+  -webkit-animation: spin 3s linear infinite;
+  animation: spin 3s linear infinite;
+}
+
+#loader:after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 3px solid transparent;
+  border-top-color: #f9c922;
+  border-radius: 50%;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-ms-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }

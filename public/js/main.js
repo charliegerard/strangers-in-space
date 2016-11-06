@@ -10,8 +10,8 @@ $( document ).ready(function() {
 
     // raveBackground();
     // hiphopBackground();
-    // funkBackground();
-    rockBackground();
+    funkBackground();
+    // rockBackground();
     // spotlight();
 
 });
