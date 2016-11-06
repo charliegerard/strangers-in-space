@@ -10,7 +10,9 @@ $(document).ready(function(){
 
   //Setup default playlist, if needed;
   var defaultPlaylist = hipHopPlaylist;
-  hiphopBackground();
+  // hiphopBackground();
+  // raveBackground();
+  funkBackground();
 
   waveChart('w-hiphop', .5);
   waveChart('w-rock', .3);
@@ -48,6 +50,12 @@ $(document).ready(function(){
     }
   });
 
+  function clearCanvas(){
+    var canvas = document.getElementById('c').remove();
+    // var context = canvas.getContext('2d');
+    // context.clearRect(0,0,window.innerWidth, window.innerHeight);
+  }
+
   socket.on('changeApproaching', function(data) {
     console.log("OMG we're about to change to " + data.type);
   });
@@ -57,15 +65,23 @@ $(document).ready(function(){
 
     switch(data.type) {
       case 'rock':
+        clearCanvas();
+        rockBackground();
         playTunes('highway to hell');
         break;
       case 'hiphop':
+        clearCanvas();
+        hiphopBackground();
         playTunes('grown up');
         break;
       case 'funk':
+        clearCanvas();
+        funkBackground();
         playTunes('get the funk out of');
         break;
       case 'rave':
+        clearCanvas();
+        raveBackground();
         playTunes('andy c');
         break;
       default:

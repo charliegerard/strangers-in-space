@@ -1,6 +1,7 @@
 var rockBackground = function() {
 
-
+  var c = document.createElement('canvas')
+  c.setAttribute('id', 'c')
   // if you just don't want to read the code but still are interested in how it works, here's a guide for you: http://codepen.io/towc/blog/a-guide-to-wavy-waved-radial-waves/
 
   var w = c.width = window.innerWidth,
@@ -161,5 +162,5 @@ var rockBackground = function() {
   	opts.cy = e.clientY;
 
   })
-
+    $(document.body).append(c);
 };

@@ -1,6 +1,6 @@
 var hiphopBackground = function() {
-
-
+  var c = document.createElement('canvas')
+  c.setAttribute('id', 'c')
 
   /*=============================================================================*/
   /* Smooth Trail
@@ -201,4 +201,6 @@ var hiphopBackground = function() {
       setupRAF();
       cl.init();
     }
+
+      $(document.body).append(c);
 };

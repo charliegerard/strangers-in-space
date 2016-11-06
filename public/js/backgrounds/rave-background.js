@@ -1,5 +1,6 @@
 var raveBackground = function() {
-
+  var c = document.createElement('canvas')
+  c.setAttribute('id', 'c')
   //initial
   var w = c.width = window.innerWidth,
   h = c.height = window.innerHeight,
@@ -57,4 +58,5 @@ var raveBackground = function() {
 
   anim();
 
+  $(document.body).append(c);
 };
