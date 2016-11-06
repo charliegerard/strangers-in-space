@@ -2,16 +2,15 @@ $(document).ready(function(){
   var socket = io();
   var numberOfUsers = 0;
   var audio = new Audio();
+  createConfettis(2);
 
   var rockPlaylist = new Playlist('rock', 0, 0);
   var hipHopPlaylist = new Playlist('hiphop', 0, 1);
   var funkPlaylist = new Playlist('funk', 0, 2);
-  var dancePlaylist = new Playlist('dance', 0, 3);
+  var ravePlaylist = new Playlist('rave', 0, 3);
 
   //Setup default playlist, if needed;
-  var defaultPlaylist = hipHopPlaylist;
-  // hiphopBackground();
-  // raveBackground();
+  var currentPlaylist = funkPlaylist;
   funkBackground();
 
   socket.on('users', function(data){
@@ -36,8 +35,8 @@ $(document).ready(function(){
         funkPlaylist.vote(data.votes);
         waveChart('w-funk', data.votes/10);
         break;
-      case 'dance':
-        dancePlaylist.vote(data.votes);
+      case 'rave':
+        ravePlaylist.vote(data.votes);
         waveChart('w-dance', data.votes/10);
         break;
       default:
@@ -47,8 +46,12 @@ $(document).ready(function(){
 
   function clearCanvas(){
     var canvas = document.getElementById('c').remove();
-    // var context = canvas.getContext('2d');
-    // context.clearRect(0,0,window.innerWidth, window.innerHeight);
+  }
+
+  function clearConfettis(){
+    var musicBlock = document.getElementsByClassName('music-block')[currentPlaylist.index];
+    var canvas = musicBlock.getElementsByClassName('world')[0]
+    canvas.remove();
   }
 
   socket.on('changeApproaching', function(data) {
@@ -58,26 +61,36 @@ $(document).ready(function(){
   socket.on('changeTheme', function(data) {
     console.log('changing theme to ' + data.type);
 
+    clearConfettis()
+
     switch(data.type) {
       case 'rock':
+        currentPlaylist = rockPlaylist;
         clearCanvas();
         rockBackground();
         playTunes('highway to hell');
+        createConfettis(0);
         break;
       case 'hiphop':
+        currentPlaylist = hipHopPlaylist;
         clearCanvas();
         hiphopBackground();
         playTunes('grown up');
+        createConfettis(1);
         break;
       case 'funk':
+        currentPlaylist = funkPlaylist;
         clearCanvas();
         funkBackground();
         playTunes('get the funk out of');
+        createConfettis(2);
         break;
       case 'rave':
+        currentPlaylist = ravePlaylist;
         clearCanvas();
         raveBackground();
         playTunes('andy c');
+        createConfettis(3);
         break;
       default:
         break;
