@@ -36,7 +36,7 @@ $(document).ready(function(){
         funkPlaylist.vote(data.votes);
         waveChart('w-funk', data.votes/10);
         break;
-      case 'dance':
+      case 'rave':
         dancePlaylist.vote(data.votes);
         waveChart('w-dance', data.votes/10);
         break;
