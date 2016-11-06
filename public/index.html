@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css" media="screen" title="no title">
-    <link rel="stylesheet" href="js/libraries/dat.gui.css" media="screen" title="no title">
+    <link rel="stylesheet" href="js/libraries/dat/dat.gui.css" media="screen" title="no title">
     <title>Strangers in space</title>
     <script type="text/javascript" src="./socket.io/socket.io.js"></script>
     <script type="text/javascript" src="playlist.js"></script>
@@ -11,37 +11,60 @@
   </head>
   <body>
     <canvas id="c"></canvas>
+<!--
+    <div class="spotlight_box"> -->
+
+      <!-- <div class="stage_highlight"></div> -->
+      <!-- <div class="spotlight_swivel">
+        <div class="lamp"></div>
+        <div class="spotlight"></div>
+      </div>
+
+    </div> -->
+
+
+
+
     <div id="code-box">
-      <h2>Enter code:</h2>
       <div id="code">
         <h2>5G29T</h2>
       </div>
     </div>
+
     <div id="container">
+
       <div class="music-style">
+        <div class="music-block">
+          <div class="counter"></div>
+        </div>
         <h2>ROCK</h2>
+      </div>
+
+      <div class="music-style">
         <div class="music-block">
           <div class="counter"></div>
         </div>
-      </div>
-      <div class="music-style">
         <h2>HIP-HOP</h2>
+      </div>
+
+      <div class="music-style">
         <div class="music-block">
           <div class="counter"></div>
         </div>
+        <h2>HIP-HOP</h2>
       </div>
+
       <div class="music-style">
-        <h2>FUNK</h2>
+        <div class='frame'>
+          <canvas id='tree'></canvas>
+        </div>
         <div class="music-block">
           <div class="counter"></div>
         </div>
-      </div>
-      <div class="music-style">
         <h2>DANCE</h2>
-        <div class="music-block">
-          <div class="counter"></div>
-        </div>
       </div>
+
+    </div>
 
 
       <script type="text/javascript" src="js/libraries/jquery.min.js"></script>
@@ -50,6 +73,7 @@
       <script type="text/javascript" src="js/backgrounds/rave-background.js"></script>
       <script type="text/javascript" src="js/backgrounds/funk-background.js"></script>
       <script type="text/javascript" src="js/backgrounds/hiphop-background.js"></script>
+      <script type="text/javascript" src="js/backgrounds/spotlight.js"></script>
       <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>

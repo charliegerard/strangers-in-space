@@ -1,9 +1,10 @@
 body{
   font-family: 'Open Sans';
   color: white;
+  background-color: black;
 }
 
-canvas{
+#c{
   position:absolute;
   top:0;
   left:0;
@@ -42,6 +43,7 @@ canvas{
 #container .music-style{
   width: 24%;
   display: inline-block;
+  text-align: center;
 }
 
 #container .music-block{
@@ -88,7 +90,114 @@ svg {
   0% { transform: translateY(50px); }
   100% { transform: translateY(-70px); }
 }
+/*
+.frame {
+  display: inline-block;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 7em;
+  text-shadow: 1px 2px  white;
+  color: green;
+  text-align: center;
+  display: block;
+  padding: 60px 0px 0px 0px;
+  background-color: black;
+}*/
+/*.frame canvas {
+  display: block;
+  padding: 60px 0px 0px 0px;
+  background-color: black;
+}*/
 
-#random{
+#tree{
+display:block;
+z-index: 10;
+position: relative;
+/*position:absolute;*/
+/*left:50%;
+top:50%;*/
+/*transform:translate(-50%,-50%);*/
+}
 
+
+/*
+
+
+*/
+.spotlight_box{
+  width: 25%;
+  height: 100%;
+  border: 1px solid red;
+  position: absolute;
+}
+
+.stage_highlight {
+  position: absolute;
+  top: 0;
+  left: 42vh;
+  width: 50vh;
+  height: 100%;
+  overflow: hidden;
+  background-image: radial-gradient(ellipse closest-side at 50% 82%, rgb(225,225,225), rgba(225,225,225,0) 100%);
+  animation: move_highlight 5s linear infinite;
+}
+.spotlight_swivel {
+  animation: rotate_spotlight 5s linear infinite;
+}
+.lamp {
+  position: relative;;
+  width: 20vh;
+  height: 400vh;
+  background-image: radial-gradient(ellipse, rgba(225,225,225,0.5), rgba(225,225,225,0.5) 25%, rgba(82,116,168,0) 50%);
+  top:-220vh;
+  /*left:55vh;*/
+  transform: perspective(23vh) rotateX(30deg);
+}
+.spotlight {
+  opacity: 0.5;
+  transform: scale(1.5,3);
+  position: absolute;
+  top: -20vh;
+  left: calc(50% - 75vh);
+}
+.spotlight::after {
+  content: '';
+  position: absolute;
+  top: -50vh;
+  background-image: radial-gradient(ellipse closest-corner at 75% 75%, rgba(225,225,225,0.2), rgba(225,225,225,0));
+  border-radius: 100%;
+  width: 100vh;
+  height: 100vh;
+  clip: rect(50vh, 100vh, 100vh, 50vh);
+  transform: rotate(45deg);
+}
+
+@keyframes rotate_spotlight {
+  0% {
+    transform: rotate(0deg) scaleY(1) translateY(0);
+  }
+  25% {
+    transform: rotate(-5deg) scaleY(1.1) translateY(-3vh);
+  }
+  50% {
+    transform: rotate(0deg) scaleY(1) translateY(0);
+  }
+  75% {
+    transform: rotate(5deg) scaleY(1.1) translateY(-3vh);
+  }
+}
+
+@keyframes move_highlight {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(8vh);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-8vh);
+  }
 }
