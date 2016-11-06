@@ -4,18 +4,18 @@ var Firebase = require('firebase');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Player = require('player');
-var http = require('http');
+var Http = require('http');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
   authDomain: "strangers-in-space.firebaseapp.com",
   databaseURL: "https://strangers-in-space.firebaseio.com",
   storageBucket: "strangers-in-space.appspot.com",
-  messagingSenderId: "748579681540"
+  messagingSenderId: "748579681540",
+  messageingServerKey: "AIzaSyAHiL6jDL0FggfsAzhf_nX9FZ1hjnl3HFg"
 };
 Firebase.initializeApp(config);
 Firebase.auth().signInWithEmailAndPassword('jamesl@thoughtworks.com', 'welcome1');
-const messaging = Firebase.messaging();
 
 var users = [];
 
@@ -75,7 +75,8 @@ var notifyUsers = function (theme) {
   var options = {
     host: 'fcm.googleapis.com',
     path: '/fcm/send',
-    headers: {'Content-Type': 'application/json', 'Authorization': config.apiKey}
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'key=' + config.messageingServerKey}
   };
 
   var callback = function(response) {
@@ -89,15 +90,11 @@ var notifyUsers = function (theme) {
     });
   }
 
-  var message = "{
-    'to': '/topics/foo-bar',
-    'data': {
-      'message': '" + theme.name + "',
-     }
-  }"
+  var message = '{"to": "/topics/themeChange","data": {"message": "' + theme.name + '",}}'
 
-  var req = http.request(options, callback);
+  var req = Http.request(options, callback);
   req.write(message);
+  console.log(req);
   req.end();
 }
 
