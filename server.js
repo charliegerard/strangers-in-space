@@ -138,6 +138,11 @@ io.on('connection', function(socket){
 
     res.send(200);
   });
+
+  app.post('/testMessage/:theme', function (req, res) {
+    const theme = votes[req.params.theme];
+    notifyUsers(theme);
+  });
 });
 
 http.listen(process.env.PORT || 3000);
