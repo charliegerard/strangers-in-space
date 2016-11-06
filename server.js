@@ -3,163 +3,143 @@ var express = require('express');
 var Firebase = require('firebase');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var Player = require('player');
+var Http = require('http');
+//var Player = require('player');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
   authDomain: "strangers-in-space.firebaseapp.com",
   databaseURL: "https://strangers-in-space.firebaseio.com",
   storageBucket: "strangers-in-space.appspot.com",
-  messagingSenderId: "748579681540"
+  messagingSenderId: "748579681540",
+  messageingServerKey: "AIzaSyAHiL6jDL0FggfsAzhf_nX9FZ1hjnl3HFg"
 };
 Firebase.initializeApp(config);
 Firebase.auth().signInWithEmailAndPassword('jamesl@thoughtworks.com', 'welcome1');
 
-var numberOfUsers = 0;
-var currentRockVotes = 0;
-var currentHipHopVotes = 0;
-var currentFunkVotes = 0;
-var currentRaveVotes = 0;
+var users = [];
 
-const upperRock = 10;
-const upperHipHop = 10;
-
-var rock = new Player('./testRock.mp3');
-var hiphop = new Player('./testHipHop.mp3');
-var funk = new Player('./testFunk.mp3');
-var rave = new Player('./testRave.mp3');
+var votes = {
+  rock: {
+    name: 'rock',
+    current: 0,
+    upper: 10,
+    //playlist: new Player('./testRock.mp3')
+  },
+  hiphop: {
+    name: 'hiphop',
+    current: 0,
+    upper: 10,
+    //playlist: new Player('./testHipHop.mp3')
+  },
+  funk: {
+    name: 'funk',
+    current: 0,
+    upper: 10,
+    //playlist: new Player('./testFunk.mp3')
+  },
+  rave: {
+    name: 'rave',
+    current: 0,
+    upper: 10,
+    //playlist: new Player('./testRave.mp3')
+  }
+}
 
 var resetAllCounters = function () {
-  currentRockVotes = 0;
-  currentHipHopVotes = 0;
-  currentFunkVotes = 0;
-  currentRaveVotes = 0;
+  votes.rock.current = 0;
+  votes.hiphop.current = 0;
+  votes.funk.current = 0;
+  votes.rave.current = 0;
 };
 
+
 var stopPlayers = function () {
-  rock.stop(function(err, player) {
-    console.log('stopped');
-  });
-  hiphop.stop();
-  funk.stop();
-  rave.stop();
+ // votes.rock.playlist.stop();
+ // votes.hiphop.playlist.stop();
+ // votes.funk.playlist.stop();
+ // votes.rave.playlist.stop();
 };
+
+var changeTheme = function (theme) {
+  resetAllCounters();
+  console.log('theme change! ' + theme.name);
+  stopPlayers();
+
+  // theme.playlist.play(function(err, player) {
+  //  console.log('play end');
+  // });
+};
+
+var notifyUsers = function (theme) {
+  var options = {
+    host: 'fcm.googleapis.com',
+    path: '/fcm/send',
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'key=' + config.messageingServerKey}
+  };
+
+  var callback = function(response) {
+    var str = ''
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    response.on('end', function () {
+      console.log(str);
+    });
+  }
+
+  var message = '{"to": "/topics/themeChange","data": {"message": "' + theme.name + '",}}'
+
+  var req = Http.request(options, callback);
+  req.write(message);
+  req.end();
+}
 
 app.use('/', express.static(__dirname + '/public'));
 
 io.on('connection', function(socket){
   console.log('a user connected');
 
-  app.post('/register', function (req, res) {
-    numberOfUsers++;
-    io.emit('users', {count : numberOfUsers})
-    res.send(200);
-  });
+  app.post('/register/:token', function (req, res) {
+    const token = req.params.token;
 
-  app.post('/rock', function (req, res) {
-    currentRockVotes++;
-
-    if(currentRockVotes >= upperRock) {
-      console.log('CHANGE TO ROCK');
+    if(users.indexOf(token) > -1) {
+      console.log('USER ALREADY REGISTERED');
+      res.send(200);
+      return;
     }
 
-    console.log('rock votes: ' + currentRockVotes);
-    io.emit('votes', {type: 'rock', votes: currentRockVotes})
+    users.push(req.params.token);
+    console.log(users);
+    io.emit('users', {count : users.size});
+
     res.send(200);
   });
 
-  app.post('/hiphop', function (req, res) {
-    currentHipHopVotes++;
+  app.post('/vote/:theme', function (req, res) {
+    const theme = votes[req.params.theme];
+    theme.current++;
 
-    if(currentHipHopVotes >= upperHipHop) {
-      console.log('CHANGE TO HIP HOP');
+    console.log(theme.name + ' votes: ' + theme.current);
+    io.emit('votes', {type: theme.name, votes: theme.current});
+
+    if(theme.current === 7) {
+      console.log('ALMOST TIME TO CHANGE TO ' + theme.name);
+      io.emit('changeApproaching', {type: theme.name, votes: theme.current});
+      notifyUsers(theme);
     }
 
-    console.log('hip hop votes: ' + currentHipHopVotes);
-    io.emit('votes', {type: 'hiphop', votes: currentHipHopVotes})
-    res.send(200);
-  });
-
-  app.post('/funk', function (req, res) {
-    currentFunkVotes++;
-    console.log('funk votes: ' + currentFunkVotes);
-    io.emit('votes', {type: 'funk', votes: currentFunkVotes})
-    res.send(200);
-  });
-
-  app.post('/rave', function (req, res) {
-    currentRaveVotes++;
-    console.log('rave votes: ' + currentRaveVotes);
-    io.emit('votes', {type: 'rave', votes: currentRaveVotes})
-    res.send(200);
-  });
-
-  app.post('/change/rock', function (req, res) {
-    resetAllCounters();
-    console.log('theme change! ROCK');
-    io.emit('change', {type: 'rock'})
-    stopPlayers();
-
-    rock.play(function(err, player) {
-      console.log('play end');
-    });
+    if(theme.current >= theme.upper) {
+      console.log('CHANGE TO ' + theme.name);
+      changeTheme(theme);
+    }
 
     res.send(200);
-  });
-
-  app.post('/change/hiphop', function (req, res) {
-    resetAllCounters();
-    console.log('theme change! HIP HOP');
-    io.emit('change', {type: 'hiphop'})
-    stopPlayers();
-
-   hiphop.play(function(err, player) {
-      console.log('play end');
-    });
-
-    res.send(200);
-  });
-
-  app.post('/change/funk', function (req, res) {
-    resetAllCounters();
-    console.log('theme change! FUNK');
-    io.emit('change', {type: 'funk'})
-    stopPlayers();
-
-    funk.play(function(err, player) {
-      console.log('play end');
-    });
-
-    res.send(200);
-  });
-
-  app.post('/change/rave', function (req, res) {
-    resetAllCounters();
-    console.log('theme change! RAVE');
-    io.emit('change', {type: 'rave'})
-    stopPlayers();
-
-    rave.play(function(err, player) {
-      console.log('play end');
-    });
-
-    res.send(200);
-
-  });
-});
-
-
-// some random test endpoint to show how to use firebase
-app.get('/test', function (req, res) {
-  var db = Firebase.database();
-  var ref = db.ref("/test");
-  var blah = 2;
-  ref.once("value", function(snapshot) {
-    blah = snapshot.val();
-    res.send(JSON.stringify({ a: blah }));
-  }, function(error) {
-    console.log(error);
   });
 });
 
 http.listen(process.env.PORT || 3000);
+
+// todo - start the initial playlist playing here...
