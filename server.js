@@ -131,6 +131,7 @@ io.on('connection', function(socket){
 
     if(theme.current === 7) {
       console.log('ALMOST TIME TO CHANGE TO ' + theme.name);
+      io.emit('changeApproaching', {type: theme.name, votes: theme.current});
       notifyUsers(theme);
     }
 
