@@ -1,6 +1,7 @@
 window.onload = function(){
   var socket = io();
   var numberOfUsers = 0;
+  var audio = new Audio();
 
   var rockPlaylist = new Playlist('rock', 0, 0);
   var hipHopPlaylist = new Playlist('hiphop', 0, 1);
@@ -8,7 +9,7 @@ window.onload = function(){
   var dancePlaylist = new Playlist('dance', 0, 3);
 
   //Setup default playlist, if needed;
-  var defaultPlaylist = rockPlaylist;
+  var defaultPlaylist = hipHopPlaylist;
 
   socket.on('users', function(data){
     numberOfUsers = data.count;
@@ -47,6 +48,23 @@ window.onload = function(){
 
   socket.on('changeTheme', function(data) {
     console.log('changing theme to ' + data.type);
+
+    switch(data.type) {
+      case 'rock':
+        playTunes('highway to hell');
+        break;
+      case 'hiphop':
+        playTunes('grown up');
+        break;
+      case 'funk':
+        playTunes('get the funk out of');
+        break;
+      case 'rave':
+        playTunes('andy c');
+        break;
+      default: 
+        break;
+    }
   });
 
   function displayVotes(playlist){
@@ -59,4 +77,24 @@ window.onload = function(){
     //   loaderDiv.style.height = newHeight + 'px'
     // }
   }
+
+  function playTunes(theme) {
+    $.ajax({
+        url: 'https://api.spotify.com/v1/search',
+        data: {
+            q: theme,
+            type: 'track'
+        },
+        success: function (response) {
+          console.log('playing song');
+            if (response.tracks.items.length) {
+                var track = response.tracks.items[0];
+                audio.src = track.preview_url;
+                audio.play();
+            }
+        }
+    });
+  }
+
+  playTunes('grown up');
 }
