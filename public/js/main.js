@@ -12,6 +12,11 @@ $( document ).ready(function() {
     // hiphopBackground();
     funkBackground();
     // rockBackground();
-    // spotlight();
+
+
+    waveChart('w-hiphop', .5);
+    waveChart('w-rock', .3);
+    waveChart('w-funk', .8);
+    waveChart('w-dance', .1);
 
 });
