@@ -41,6 +41,10 @@ window.onload = function(){
     }
   });
 
+  socket.on('changeApproaching', function(data) {
+    console.log("OMG we're about to change to " + data.type);
+  });
+
   function displayVotes(playlist){
     var loaderDiv = document.getElementsByClassName('counter')[playlist.index];
     var loaderContainer = document.getElementsByClassName('music-block')[playlist.index];
