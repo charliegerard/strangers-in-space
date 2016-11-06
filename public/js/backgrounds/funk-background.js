@@ -1,13 +1,14 @@
 var funkBackground = function() {
 
-  var c = document.querySelector('canvas'),
+  var c = document.createElement('canvas'),
   		ct = c.getContext('2d'),
-  		w = c.width, h = c.height,
+  		w = c.width = window.innerWidth, h = c.height = window.innerHeight,
   		k = .64,
-  		cell_size = 10, real_size = k*cell_size,
+  		cell_size = 40, real_size = k*cell_size,
   		nx = ~~(w/cell_size), offx = .5*(w%cell_size),
   		ny = ~~(h/cell_size), offy = .5*(h%cell_size),
   		cells = [], n;
+      c.setAttribute('id', 'c')
   var rand = function(max, min, is_int) {
   	var max = (max || max === 0)?max:1,
   			min = min || 0,
@@ -42,5 +43,7 @@ var funkBackground = function() {
   	}
   	requestAnimationFrame(ani.bind(this, ++t));
   })(0);
+
+  $(document.body).append(c);
 
 };
