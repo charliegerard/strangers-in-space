@@ -4,6 +4,14 @@ body{
   background-color: black;
 }
 
+#w{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+  bottom: 0;
+}
+
 #c{
   position:absolute;
   top:0;
@@ -11,7 +19,7 @@ body{
   background-color:black;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
 }
 
 #code-box{
@@ -58,7 +66,8 @@ body{
   width: 80%;
   display: block;
   margin: 0 auto;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
+  background-color: white;
   min-height: 50vh;
   position: relative;
 }
@@ -75,7 +84,14 @@ body{
 .dance-gif{
   /*border: 1px solid white;*/
   left: -140px;
+  bottom: 0;
   position: absolute;
+  z-index: 2;
+}
+
+.empty{
+  height: 100px;
+  width: 100%;
 }
 
 
