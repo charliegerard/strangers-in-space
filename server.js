@@ -94,7 +94,6 @@ var notifyUsers = function (theme) {
 
   var req = Http.request(options, callback);
   req.write(message);
-  console.log(req);
   req.end();
 }
 
