@@ -4,7 +4,6 @@ var Firebase = require('firebase');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Http = require('http');
-//var Player = require('player');
 
 var config = {
   apiKey: "AIzaSyCufFUbb5zzaMscOaza0oJDmcV-9ZTdHjY",
@@ -23,26 +22,22 @@ var votes = {
   rock: {
     name: 'rock',
     current: 0,
-    upper: 10,
-    //playlist: new Player('./testRock.mp3')
+    upper: 10
   },
   hiphop: {
     name: 'hiphop',
     current: 0,
-    upper: 10,
-    //playlist: new Player('./testHipHop.mp3')
+    upper: 10
   },
   funk: {
     name: 'funk',
     current: 0,
-    upper: 10,
-    //playlist: new Player('./testFunk.mp3')
+    upper: 10
   },
   rave: {
     name: 'rave',
     current: 0,
-    upper: 10,
-    //playlist: new Player('./testRave.mp3')
+    upper: 10
   }
 }
 
@@ -53,31 +48,13 @@ var resetAllCounters = function () {
   votes.rave.current = 0;
 };
 
-
-var stopPlayers = function () {
- // votes.rock.playlist.stop();
- // votes.hiphop.playlist.stop();
- // votes.funk.playlist.stop();
- // votes.rave.playlist.stop();
-};
-
 var changeTheme = function (theme) {
   resetAllCounters();
   console.log('theme change! ' + theme.name);
-  stopPlayers();
-
-  // theme.playlist.play(function(err, player) {
-  //  console.log('play end');
-  // });
 };
 
-var notifyUsers = function (theme) {
-  var options = {
-    host: 'fcm.googleapis.com',
-    path: '/fcm/send',
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Authorization': 'key=' + config.messageingServerKey}
-  };
+var makeHttpRequest = function (method, options, message) {
+  options.method = method;
 
   var callback = function(response) {
     var str = ''
@@ -90,12 +67,22 @@ var notifyUsers = function (theme) {
     });
   }
 
-  var message = '{"to": "/topics/themeChange","data": {"message": "' + theme.name + '",}}'
-
   var req = Http.request(options, callback);
   req.write(message);
   req.end();
-}
+};
+
+var notifyUsers = function (theme) {
+  var options = {
+    host: 'fcm.googleapis.com',
+    path: '/fcm/send',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'key=' + config.messageingServerKey}
+  };
+
+  var message = '{"to": "/topics/themeChange","data": {"message": "' + theme.name + '",}}'
+
+  makeHttpRequest('POST', options, message);
+};
 
 app.use('/', express.static(__dirname + '/public'));
 
@@ -133,6 +120,7 @@ io.on('connection', function(socket){
 
     if(theme.current >= theme.upper) {
       console.log('CHANGE TO ' + theme.name);
+      io.emit('changeTheme', {type: theme.name});
       changeTheme(theme);
     }
 
@@ -147,5 +135,3 @@ io.on('connection', function(socket){
 });
 
 http.listen(process.env.PORT || 3000);
-
-// todo - start the initial playlist playing here...

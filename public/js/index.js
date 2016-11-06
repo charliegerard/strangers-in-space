@@ -45,6 +45,10 @@ window.onload = function(){
     console.log("OMG we're about to change to " + data.type);
   });
 
+  socket.on('changeTheme', function(data) {
+    console.log('changing theme to ' + data.type);
+  });
+
   function displayVotes(playlist){
     var loaderDiv = document.getElementsByClassName('counter')[playlist.index];
     var loaderContainer = document.getElementsByClassName('music-block')[playlist.index];
