@@ -127,7 +127,7 @@ io.on('connection', function(socket){
 
     if(theme.current === 7) {
       console.log('ALMOST TIME TO CHANGE TO ' + theme.name);
-      io.emit('changeApproaching', {type: theme.name, votes: theme.current});
+      io.emit('changeApproaching', {type: theme.name});
       notifyUsers(theme);
     }
 
@@ -136,6 +136,12 @@ io.on('connection', function(socket){
       changeTheme(theme);
     }
 
+    res.send(200);
+  });
+
+  app.post('/testMessage/:theme', function (req, res) {
+    const theme = votes[req.params.theme];
+    notifyUsers(theme);
     res.send(200);
   });
 });
