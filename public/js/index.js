@@ -114,5 +114,5 @@ $(document).ready(function(){
     });
   }
 
-  playTunes('grown up');
+  playTunes('award tour');
 })
