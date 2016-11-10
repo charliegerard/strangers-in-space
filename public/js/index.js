@@ -75,7 +75,7 @@ $(document).ready(function(){
         currentPlaylist = hipHopPlaylist;
         clearCanvas();
         hiphopBackground();
-        playTunes('grown up');
+        playTunes('award tour');
         createConfettis(1);
         break;
       case 'funk':
