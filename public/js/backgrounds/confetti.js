@@ -9,10 +9,13 @@ var createConfettis = function(index) {
 
   if($('.music-block')[index].getElementsByClassName("world")[0]){
     canvas = $('.music-block')[index].getElementsByClassName("world")[0];
+
   } else {
     canvas = document.createElement('canvas');
     canvas.setAttribute('class', 'world');
     $('.music-block')[index].append(canvas);
+    var musicBlock = $('.music-block')[index]
+    musicBlock.style.backgroundColor="rgb(177,249,253)"
   }
 
   // canvas = document.getElementById("world");

@@ -22,22 +22,22 @@ var votes = {
   rock: {
     name: 'rock',
     current: 0,
-    upper: 10
+    upper: 5
   },
   hiphop: {
     name: 'hiphop',
     current: 0,
-    upper: 10
+    upper: 5
   },
   funk: {
     name: 'funk',
     current: 0,
-    upper: 10
+    upper: 5
   },
   rave: {
     name: 'rave',
     current: 0,
-    upper: 10
+    upper: 5
   }
 }
 

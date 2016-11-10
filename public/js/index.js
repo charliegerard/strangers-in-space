@@ -51,6 +51,7 @@ $(document).ready(function(){
 
   function clearConfettis(){
     var musicBlock = document.getElementsByClassName('music-block')[currentPlaylist.index];
+    musicBlock.style.backgroundColor="rgb(60,54,70)"
     var canvas = musicBlock.getElementsByClassName('world')[0]
     canvas.remove();
   }
@@ -71,6 +72,7 @@ $(document).ready(function(){
 
     clearConfettis();
     clearVotes()
+
 
     switch(data.type) {
       case 'rock':

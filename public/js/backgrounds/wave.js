@@ -128,12 +128,12 @@ var waveChart = function(id, percent) {
     var i = opt.count + 2;
     var spacing = (cw + (opt.range.x * 2)) / (opt.count-1);
 
-    var votesLevel = (opt.level === 1) ? 0 : opt.level;
+    var votesLevel = (opt.level === 0.5) ? 0 : opt.level;
 
     while(i--){
       points.push(new Point({
         x: (spacing * (i - 1)) - opt.range.x,
-        y: ch - (ch * votesLevel)
+        y: ch - (ch * votesLevel *2)
       }));
     }
 
