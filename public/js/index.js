@@ -12,7 +12,7 @@ $(document).ready(function(){
   var defaultPlaylist = hipHopPlaylist;
   // hiphopBackground();
   // raveBackground();
-  rockBackground();
+  funkBackground();
 
   socket.on('users', function(data){
     numberOfUsers = data.count;

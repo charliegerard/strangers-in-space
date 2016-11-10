@@ -11,6 +11,8 @@ body{
   left: 0;
   z-index: 1;
   bottom: 0;
+  background-color: white;
+  border-radius: 5em;
 }
 
 #c{
@@ -78,6 +80,7 @@ body{
   background-color: black;
   min-height: 50vh;
   position: relative;
+  border-radius: 5em;
 }
 
 #container .music-block .counter{
