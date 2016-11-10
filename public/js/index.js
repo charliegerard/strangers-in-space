@@ -9,11 +9,10 @@ $(document).ready(function(){
   var ravePlaylist = new Playlist('rave', 0, 3);
 
   //Setup default playlist, if needed;
-
-  var currentPlaylist = funkPlaylist;
+  var currentPlaylist = hipHopPlaylist;
 
   funkBackground();
-  createConfettis(2);
+  createConfettis(1);
 
   socket.on('users', function(data){
     numberOfUsers = data.count;
@@ -56,6 +55,13 @@ $(document).ready(function(){
     canvas.remove();
   }
 
+  function clearVotes(){
+    waveChart('w-rock', 0);
+    waveChart('w-hiphop', 0);
+    waveChart('w-funk', 0);
+    waveChart('w-dance', 0);
+  }
+
   socket.on('changeApproaching', function(data) {
     console.log("OMG we're about to change to " + data.type);
   });
@@ -63,7 +69,8 @@ $(document).ready(function(){
   socket.on('changeTheme', function(data) {
     console.log('changing theme to ' + data.type);
 
-    clearConfettis()
+    clearConfettis();
+    clearVotes()
 
     switch(data.type) {
       case 'rock':

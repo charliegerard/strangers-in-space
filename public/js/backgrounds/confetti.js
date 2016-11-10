@@ -15,6 +15,8 @@ var createConfettis = function(index) {
     $('.music-block')[index].append(canvas);
   }
 
+  // canvas = document.getElementById("world");
+
   context = canvas.getContext("2d");
 
   window.w = canvas.width;
