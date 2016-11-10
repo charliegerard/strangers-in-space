@@ -90,7 +90,7 @@ $(document).ready(function(){
       case 'funk':
         currentPlaylist = funkPlaylist;
         // clearCanvas();
-        playTunes('get the funk out of');
+        playTunes('i wanna dance with somebody');
         createConfettis(2);
         break;
       case 'rave':
