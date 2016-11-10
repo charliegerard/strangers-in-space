@@ -18,6 +18,9 @@ var createConfettis = function(index) {
     musicBlock.style.backgroundColor="rgb(177,249,253)"
   }
 
+  var musicBlock = $('.music-block')[index]
+  musicBlock.style.backgroundColor="rgb(177,249,253)"
+
   // canvas = document.getElementById("world");
 
   context = canvas.getContext("2d");
