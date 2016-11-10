@@ -85,7 +85,7 @@ $(document).ready(function(){
       case 'rave':
         currentPlaylist = ravePlaylist;
         clearCanvas();
-        playTunes('andy c');
+        playTunes('haddaway what is love');
         createConfettis(3);
         break;
       default:
