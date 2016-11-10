@@ -15,11 +15,11 @@ var createConfettis = function(index) {
     canvas.setAttribute('class', 'world');
     $('.music-block')[index].append(canvas);
     var musicBlock = $('.music-block')[index]
-    musicBlock.style.backgroundColor="rgb(177,249,253)"
+    musicBlock.style.backgroundColor="rgb(249, 100, 229)"
   }
 
   var musicBlock = $('.music-block')[index]
-  musicBlock.style.backgroundColor="rgb(177,249,253)"
+  musicBlock.style.backgroundColor="rgb(249, 100, 229)"
 
   // canvas = document.getElementById("world");
 
