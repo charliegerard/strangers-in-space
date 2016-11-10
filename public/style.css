@@ -4,7 +4,7 @@ body{
   background-color: black;
 }
 
-#w-rock, #w-funk, #w-dance, #w-hiphop, #world {
+#w-rock, #w-funk, #w-dance, #w-hiphop, .world {
   position: absolute;
   width: 100%;
   height: 100%;

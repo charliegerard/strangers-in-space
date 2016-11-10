@@ -1,23 +1,29 @@
-(function() {
+var createConfettis = function(index) {
   var COLORS, Confetti, NUM_CONFETTI, PI_2, canvas, confetti, context, drawCircle, i, range, resizeWindow, xpos;
 
-  NUM_CONFETTI = 350;
+  NUM_CONFETTI = 200;
 
   COLORS = [[85, 71, 106], [174, 61, 99], [219, 56, 83], [244, 92, 68], [248, 182, 70]];
 
   PI_2 = 2 * Math.PI;
 
-  canvas = document.getElementById("world");
+  if($('.music-block')[index].getElementsByClassName("world")[0]){
+    canvas = $('.music-block')[index].getElementsByClassName("world")[0];
+  } else {
+    canvas = document.createElement('canvas');
+    canvas.setAttribute('class', 'world');
+    $('.music-block')[index].append(canvas);
+  }
 
   context = canvas.getContext("2d");
 
-  window.w = 0;
+  window.w = canvas.width;
 
-  window.h = 0;
-
+  window.h = canvas.height;
+  //
   resizeWindow = function() {
-    window.w = canvas.width = window.innerWidth;
-    return window.h = canvas.height = window.innerHeight;
+    window.w = canvas.width;
+    return window.h = canvas.height;
   };
 
   window.addEventListener('resize', resizeWindow, false);
@@ -39,10 +45,6 @@
 
   xpos = 0.5;
 
-  document.onmousemove = function(e) {
-    return xpos = e.pageX / w;
-  };
-
   window.requestAnimationFrame = (function() {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
       return window.setTimeout(callback, 1000 / 60);
@@ -53,7 +55,7 @@
     function Confetti() {
       this.style = COLORS[~~range(0, 5)];
       this.rgb = "rgba(" + this.style[0] + "," + this.style[1] + "," + this.style[2];
-      this.r = ~~range(2, 6);
+      this.r = ~~range(2, 3);
       this.r2 = 2 * this.r;
       this.replace();
     }
@@ -114,4 +116,4 @@
 
   step();
 
-}).call(this);
+};
