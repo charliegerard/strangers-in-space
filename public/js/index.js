@@ -2,7 +2,6 @@ $(document).ready(function(){
   var socket = io();
   var numberOfUsers = 0;
   var audio = new Audio();
-  createConfettis(1);
 
   var rockPlaylist = new Playlist('rock', 0, 0);
   var hipHopPlaylist = new Playlist('hiphop', 0, 1);
@@ -14,6 +13,7 @@ $(document).ready(function(){
   var currentPlaylist = funkPlaylist;
 
   funkBackground();
+  createConfettis(1);
 
   socket.on('users', function(data){
     numberOfUsers = data.count;
@@ -68,25 +68,25 @@ $(document).ready(function(){
     switch(data.type) {
       case 'rock':
         currentPlaylist = rockPlaylist;
-        clearCanvas();
+        // clearCanvas();
         playTunes('highway to hell');
         createConfettis(0);
         break;
       case 'hiphop':
         currentPlaylist = hipHopPlaylist;
-        clearCanvas();
+        // clearCanvas();
         playTunes('award tour');
         createConfettis(1);
         break;
       case 'funk':
         currentPlaylist = funkPlaylist;
-        clearCanvas();
+        // clearCanvas();
         playTunes('get the funk out of');
         createConfettis(2);
         break;
       case 'rave':
         currentPlaylist = ravePlaylist;
-        clearCanvas();
+        // clearCanvas();
         playTunes('haddaway what is love');
         createConfettis(3);
         break;
