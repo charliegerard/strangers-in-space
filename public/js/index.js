@@ -2,7 +2,7 @@ $(document).ready(function(){
   var socket = io();
   var numberOfUsers = 0;
   var audio = new Audio();
-  createConfettis(2);
+  createConfettis(1);
 
   var rockPlaylist = new Playlist('rock', 0, 0);
   var hipHopPlaylist = new Playlist('hiphop', 0, 1);
@@ -67,28 +67,24 @@ $(document).ready(function(){
       case 'rock':
         currentPlaylist = rockPlaylist;
         clearCanvas();
-        rockBackground();
         playTunes('highway to hell');
         createConfettis(0);
         break;
       case 'hiphop':
         currentPlaylist = hipHopPlaylist;
         clearCanvas();
-        hiphopBackground();
         playTunes('award tour');
         createConfettis(1);
         break;
       case 'funk':
         currentPlaylist = funkPlaylist;
         clearCanvas();
-        funkBackground();
         playTunes('get the funk out of');
         createConfettis(2);
         break;
       case 'rave':
         currentPlaylist = ravePlaylist;
         clearCanvas();
-        raveBackground();
         playTunes('andy c');
         createConfettis(3);
         break;
