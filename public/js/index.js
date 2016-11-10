@@ -13,7 +13,7 @@ $(document).ready(function(){
   var currentPlaylist = funkPlaylist;
 
   funkBackground();
-  createConfettis(1);
+  createConfettis(2);
 
   socket.on('users', function(data){
     numberOfUsers = data.count;
